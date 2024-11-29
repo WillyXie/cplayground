@@ -1,0 +1,4 @@
+[submodule "ext/qt6"]
+	path = ext/qt6
+	url = https://code.qt.io/qt/qt5.git
+	branch = 6.5.3
