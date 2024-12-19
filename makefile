@@ -1,18 +1,28 @@
 ROOT := $(shell pwd)
-DOCKIMAGE 		?= cplayground
-DOCKCONTAINER ?= cplayground
-SYNCHOST			?= $(ROOT)
-SYNCDOCK			?= /work/sync
+BUILD	:= $(ROOT)/build
 
-docker-build-image:
-	@sudo docker build -t $(DOCKIMAGE) .
+PROC ?= 8
+ECHO := @echo
 
-docker-run:
-	@sudo docker run -v $(SYNCHOST):$(SYNCDOCK) --name $(DOCKCONTAINER) -td $(DOCKIMAGE) /bin/bash
+QTROOT := $(ROOT)/ext/qt6
+QTPATH := $(ROOT)/tools/qt6
+QTMAKE := $(QTPATH)/bin/qmake
+QTOOLS := $(QTMAKE)
 
-docker-attatch:
-	@sudo docker exec -it $(DOCKCONTAINER) /bin/fish
+qtest: $(QTMAKE)
+	@$(QTMAKE) --help
 
-docker-clean:
-	@sudo docker container stop $(DOCKCONTAINER); \
-		sudo docker container rm $(DOCKCONTAINER)
+$(QTOOLS): | $(BUILD)/Makefile
+	$(ECHO) Compiling QT6...
+	@cd $(BUILD); cmake --build . --parallel $(PROC);\
+		mkdir -p $(QTPATH); cmake --install .
+
+$(BUILD)/Makefile:
+	$(ECHO) Configuring QT6...
+	@cd $(QTROOT); perl init-repository;\
+		mkdir -p $(BUILD); cd $(BUILD);\
+		$(QTROOT)/configure -prefix $(QTPATH);\
+
+clean:
+	rm -rf $(BUILD)
+

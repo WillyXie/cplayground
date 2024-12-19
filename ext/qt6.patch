@@ -1,0 +1,34 @@
+Submodule ext/qt6 contains modified content
+Submodule qt3d contains modified content
+Submodule src/3rdparty/assimp/src contains modified content
+diff --git a/ext/qt6/qt3d/src/3rdparty/assimp/src/code/AssetLib/FBX/FBXBinaryTokenizer.cpp b/ext/qt6/qt3d/src/3rdparty/assimp/src/code/AssetLib/FBX/FBXBinaryTokenizer.cpp
+index 348812054..120e47a76 100644
+--- a/ext/qt6/qt3d/src/3rdparty/assimp/src/code/AssetLib/FBX/FBXBinaryTokenizer.cpp
++++ b/ext/qt6/qt3d/src/3rdparty/assimp/src/code/AssetLib/FBX/FBXBinaryTokenizer.cpp
+@@ -472,7 +472,7 @@ void TokenizeBinary(TokenList& output_tokens, const char* input, size_t length)
+     }
+     catch (const DeadlyImportError& e)
+     {
+-        if (!is64bits && (length > std::numeric_limits<std::uint32_t>::max())) {
++        if (!is64bits && (length > std::numeric_limits<uint32_t>::max())) {
+             throw DeadlyImportError("The FBX file is invalid. This may be because the content is too big for this older version (", ai_to_string(version), ") of the FBX format. (", e.what(), ")");
+         }
+         throw;
+Submodule qtbase contains modified content
+diff --git a/ext/qt6/qtbase/src/gui/platform/unix/qxkbcommon.cpp b/ext/qt6/qtbase/src/gui/platform/unix/qxkbcommon.cpp
+index fc014b38e2..6ec266d8b5 100644
+--- a/ext/qt6/qtbase/src/gui/platform/unix/qxkbcommon.cpp
++++ b/ext/qt6/qtbase/src/gui/platform/unix/qxkbcommon.cpp
+@@ -239,10 +239,12 @@ static constexpr const auto KeyTbl = qMakeArray(
+         Xkb2Qt<XKB_KEY_dead_small_schwa,        Qt::Key_Dead_Small_Schwa>,
+         Xkb2Qt<XKB_KEY_dead_capital_schwa,      Qt::Key_Dead_Capital_Schwa>,
+         Xkb2Qt<XKB_KEY_dead_greek,              Qt::Key_Dead_Greek>,
++#ifdef XKB_KEY_dead_lowline
+         Xkb2Qt<XKB_KEY_dead_lowline,            Qt::Key_Dead_Lowline>,
+         Xkb2Qt<XKB_KEY_dead_aboveverticalline,  Qt::Key_Dead_Aboveverticalline>,
+         Xkb2Qt<XKB_KEY_dead_belowverticalline,  Qt::Key_Dead_Belowverticalline>,
+         Xkb2Qt<XKB_KEY_dead_longsolidusoverlay, Qt::Key_Dead_Longsolidusoverlay>,
++#endif
+ 
+         // Special keys from X.org - This include multimedia keys,
+         // wireless/bluetooth/uwb keys, special launcher keys, etc.

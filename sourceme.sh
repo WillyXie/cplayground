@@ -1,9 +1,11 @@
 #!/bin/bash
 
-QTBIN="$(pwd)/ext/qt6/install/bin"
+SCRIPT=$(readlink -f $BASH_SOURCE)
+BASEDIR=$(dirname $SCRIPT)
 
-echo "Append QT binary directory to PATH : $QTBIN"
-export PATH=$PATH:$QTBIN
+QTPATH=$BASEDIR/tools/qt6/bin
+echo "Append path to QT : $QTPATH"
+export PATH=$PATH:$QTPATH
 
-echo "PATH : $PATH"
+echo "Final PATH : $PATH"
 
